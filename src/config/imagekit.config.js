@@ -7,12 +7,13 @@ const client = new ImageKit({
 });
 
 const createSongUrl = async (songFile) => {
+    
     const response = await client.files.upload({
         file: songFile.buffer.toString('base64'),
         fileName: songFile.originalname,
     });
 
-    console.log(response, "res");
+    return response
 }
 
 export default createSongUrl

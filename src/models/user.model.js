@@ -1,4 +1,7 @@
+import jwt from "jsonwebtoken";
+const { sign, verify } = jwt;
 import mongoose from "mongoose";
+import envConfig from "../config/env.config.js";
 
 const userModel = new mongoose.Schema({
     username: {
@@ -13,13 +16,17 @@ const userModel = new mongoose.Schema({
     },
     role: {
         type: String,
-        enum: ["user", "admin"],
-        required:true
+        enum: ["user", "artist"],
+        required: true
     },
     password: {
         type: String,
         required: true,
     }
 })
+
+userModel.methods.generateToken = async (data) => {
+    return await sign(data, envConfig.JWT_SECRET)
+}
 
 export default mongoose.model("user", userModel)
