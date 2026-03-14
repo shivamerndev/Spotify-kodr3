@@ -5,8 +5,7 @@ import songModel from "../models/song.model.js";
 
 export const createSong = async (req, res) => {
 
-    const artist = req.body;
-    console.log(artist)
+    const { artist } = req.body;
     const songFile = req.file;
     if (!artist || !songFile) {
         return res.status(400).message("Artist and SongFile must be provided.")
@@ -36,4 +35,14 @@ export const createSong = async (req, res) => {
     const { url } = await createSongUrl(songFile)
     await songModel.create({ song: url, artist })
     res.status(201).json({ message: "Song Uploaded Successfully." })
+}
+
+export const getSongs = async (req, res) => {
+    const songs = await songModel.find()
+    res.status(200).json({ success: true, songs })
+}
+
+export const getSong = async (req, res) => {
+    const song = await songModel.findById(req.params.songId)
+    res.status(200).json({ message: "song fetched successfully.", song })
 }
