@@ -4,10 +4,10 @@ import errorHandler from "../utils/error.utils.js"
 
 const checkAuth = errorHandler(async (req, res, next) => {
 
-    const token = req.rawHeaders.find(e => e.includes("token")).split("=")[1]
+    const token = req.rawHeaders.find(e => e.includes("token"))?.split("=")[1]
 
     if (!token) {
-        return res.send("token is not found")
+        return res.send("Invalid token. Please login to upload song.")
     }
     const decoded = await jwt.verify(token, envConfig.JWT_SECRET)
 

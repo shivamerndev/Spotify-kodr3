@@ -1,5 +1,6 @@
 import createSongUrl from "../config/imagekit.config.js";
 import songModel from "../models/song.model.js";
+import metaData from "id3"
 // import fs from "fs";
 // import path from "path";
 
@@ -7,6 +8,8 @@ export const createSong = async (req, res) => {
 
     const { artist } = req.body;
     const songFile = req.file;
+    const meta = metaData(songFile.buffer)
+    console.log(meta)
     if (!artist || !songFile) {
         return res.status(400).message("Artist and SongFile must be provided.")
     }
