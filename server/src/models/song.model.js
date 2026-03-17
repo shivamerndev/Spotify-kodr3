@@ -6,7 +6,20 @@ const songSchema = new mongoose.Schema({
         required: true,
         unique: true
     },
-    artist: String,
+    artist: {
+        type: String,
+        required: true
+    },
+    title: {
+        type: String
+    },
+    poster: {
+        type: String
+    },
+    admin: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "user"
+    }
 })
 
-export default mongoose.model("song",songSchema)
+export default mongoose.model("song", songSchema)

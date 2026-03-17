@@ -1,4 +1,3 @@
-import React from 'react'
 import { Link } from 'react-router-dom'
 import handleForm from '../utils/form.utils.js'
 import useSong from '../hooks/useSong.js'
@@ -17,7 +16,7 @@ const Upload = () => {
                     </header>
 
                     <form onSubmit={(e)=>handleForm(e,handleUploadSong)} className="space-y-4">
-                        <div className="space-y-1.5">
+                        {/* <div className="space-y-1.5">
                             <label htmlFor="title" className="text-sm font-medium text-slate-200">
                                 Song title
                             </label>
@@ -28,10 +27,10 @@ const Upload = () => {
                                 placeholder="Enter song title"
                                 className="h-11 w-full rounded-xl border border-white/10 bg-white/5 px-4 text-slate-100 placeholder:text-slate-400 outline-none transition focus:border-indigo-400/60 focus:ring-4 focus:ring-indigo-500/20"
                             />
-                        </div>
+                        </div> */}
 
-                        <div className="space-y-1.5">
-                            <label htmlFor="file" className="text-sm font-medium text-slate-200">
+                        <div className="space-y-2">
+                            <label htmlFor="file" className="text-sm mb-4 font-medium text-slate-200">
                                 Audio file
                             </label>
                             <input

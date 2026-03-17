@@ -4,6 +4,7 @@ import Login from "../pages/Login";
 import Register from "../pages/Register";
 import Home from "../pages/Home";
 import Upload from "../pages/Upload";
+import ChatPage from "../chats/pages/ChatPage";
 
 const ROUTES = createBrowserRouter([{
     element: <App />,
@@ -23,6 +24,10 @@ const ROUTES = createBrowserRouter([{
         {
             path: "/register",
             element: <Register />
+        },
+        {
+            path:"/chat",
+            element:<ChatPage/>
         }
     ]
 }])

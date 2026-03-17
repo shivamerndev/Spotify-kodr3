@@ -1,10 +1,9 @@
 const hanleError = (cb) => async (...arg) => {
     try {
-        console.log(arg,"arguments")
-        let res = await cb(arg)
-        console.log(res)
+        let res = await cb(...arg)
+        return res
     } catch (error) {
-        return (error.message)
+        return { error: error.message }
     }
 }
 export default hanleError

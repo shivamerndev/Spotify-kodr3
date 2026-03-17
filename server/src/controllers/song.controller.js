@@ -1,17 +1,17 @@
+import metaData from "id3"
 import createSongUrl from "../config/imagekit.config.js";
 import songModel from "../models/song.model.js";
-import metaData from "id3"
+import NodeID3 from "node-id3"
 // import fs from "fs";
 // import path from "path";
 
 export const createSong = async (req, res) => {
 
-    const { artist } = req.body;
     const songFile = req.file;
-    const meta = metaData(songFile.buffer)
-    console.log(meta)
-    if (!artist || !songFile) {
-        return res.status(400).message("Artist and SongFile must be provided.")
+    const { artist, title, image } = NodeID3.read(songFile.buffer)
+
+    if (!artist || !title || !image || !songFile) {
+        return res.status(400).message("All fields and SongFile must be provided.")
     }
     // const filePath = path.join("uploads", "music", "shivam" + songFile.originalname);
 
@@ -35,8 +35,9 @@ export const createSong = async (req, res) => {
     //         console.log("File Saved.")
     //     }
     // })
-    const { url } = await createSongUrl(songFile)
-    await songModel.create({ song: url, artist })
+    const { url, posterUrl } = await createSongUrl(songFile,image, title)
+
+    await songModel.create({ song: url, artist, title, poster: posterUrl })
     res.status(201).json({ message: "Song Uploaded Successfully." })
 }
 
