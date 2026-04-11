@@ -1,41 +1,34 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
+import { connectSocket, emitMsg, reciveMsg } from '../web/Socket'
 
 const ChatPage = () => {
     const [draft, setDraft] = useState('')
-    const [messages, setMessages] = useState(() => [
-        {
-            id: 'm1',
-            direction: 'in',
-            text: 'Hey!\nWelcome to the chat.',
-            time: '12:01'
-        },
-        {
-            id: 'm2',
-            direction: 'out',
-            text: 'Hi! Can you make this look like WhatsApp?',
-            time: '12:02'
-        },
-        {
-            id: 'm3',
-            direction: 'in',
-            text: 'Incoming messages on the left, outgoing on the right.',
-            time: '12:03'
-        }
-    ])
+    const [messages, setMessages] = useState([])
 
-    const header = useMemo(
-        () => ({
-            name: 'Chat Room',
-            status: 'online'
-        }),
-        []
-    )
+
+    useEffect(() => {
+        connectSocket()
+    }, [])
+
+    const header = useMemo(() => ({
+        name: 'Chat Room',
+        status: 'online'
+    }), [])
 
     const endRef = useRef(null)
 
     useEffect(() => {
         endRef.current?.scrollIntoView({ behavior: 'smooth' })
     }, [messages.length])
+
+    useEffect(() => {
+        if (!draft) {
+            reciveMsg("hero", msg => {
+                setMessages(prev => [...prev, msg])
+                console.log(msg)
+            })
+        }
+    }, [draft])
 
     const onSend = (e) => {
         e.preventDefault()
@@ -44,10 +37,14 @@ const ChatPage = () => {
 
         const now = new Date()
         const time = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
+        let obj = { id: now, direction: "in", text, time }
+        emitMsg("message", obj)
+        setMessages(prev => [...prev, { ...obj, direction: "out" }])
 
 
         setDraft('')
     }
+    console.log(messages)
 
     return (
         <div className="h-screen content-center w-full bg-[#efeae2] text-slate-900">
@@ -103,7 +100,7 @@ const ChatPage = () => {
                         onChange={(e) => setDraft(e.target.value)}
                         placeholder="Type a message"
                         rows={1}
-                        className="flex-1 resize-none rounded-2xl bg-white px-4 py-2 text-sm outline-none ring-1 ring-black/10 focus:ring-2 focus:ring-emerald-300"/>
+                        className="flex-1 resize-none rounded-2xl bg-white px-4 py-2 text-sm outline-none ring-1 ring-black/10 focus:ring-2 focus:ring-emerald-300" />
                     <button
                         type="submit"
                         className="grid items-center rounded-xl cursor-pointer px-2 bg-emerald-600 text-sm font-semibold text-white shadow-sm hover:bg-emerald-700 active:bg-emerald-800"

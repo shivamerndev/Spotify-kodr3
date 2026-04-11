@@ -65,7 +65,7 @@ const Home = () => {
     const canShowPlayer = useMemo(() => Boolean(currentSong?.song), [currentSong?.song])
 
     return (songs &&
-        <div className={`min-h-screen bg-gradient-to-b from-slate-950 via-slate-900 to-slate-950 px-4 py-10 ${canShowPlayer ? 'pb-28' : ''}`}>
+        <div className={`min-h-screen bg-linear-to-b from-slate-950 via-slate-900 to-slate-950 px-4 py-10 ${canShowPlayer ? 'pb-28' : ''}`}>
             <div className="mx-auto w-full max-w-5xl">
                 <header className="mb-8 flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
                     <div>
@@ -101,8 +101,7 @@ const Home = () => {
                 </div>
             </div>
 
-            <audio
-                ref={audioRef}
+            <audio ref={audioRef}
                 preload="metadata"
                 onLoadedMetadata={(e) => setDuration(e.currentTarget.duration || 0)}
                 onTimeUpdate={(e) => setCurrentTime(e.currentTarget.currentTime || 0)}
@@ -153,7 +152,7 @@ const Home = () => {
                                     setCurrentTime(nextTime)
                                 }}
                                 className="h-2 w-full cursor-pointer accent-indigo-500"
-                                aria-label="Seek"/>
+                                aria-label="Seek" />
                             <span className="w-10 text-xs text-slate-300">{formatTime(duration)}</span>
                         </div>
                     </div>

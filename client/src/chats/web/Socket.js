@@ -1,12 +1,16 @@
-import {io} from 'socket.io-client'
+import { io } from 'socket.io-client';
 
+let socket;
 
-const Socket = () => {
-
-    const socket = io('http://localhost:3000');
-
-    return socket;
-
+export const connectSocket = async () => {
+    socket = io("http://localhost:4000");
+    console.log("Socket connected")
 }
 
-export default Socket
+export const reciveMsg = (event, callback) => {
+    socket.on(event, callback);
+}
+
+export const emitMsg = (event, msg) => {
+    socket.emit(event, msg);
+}
